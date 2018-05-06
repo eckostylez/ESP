@@ -1221,8 +1221,8 @@ function showips() {
 }
 
 function docroot() {
-	OWNER=$(/scripts/whoowns "${1}")
-	cd "$(grep documentroot /var/cpanel/userdata/"${OWNER}"/"${1}" | cut -d' ' -f2)" || return
+	local DOMAIN=${1}
+	cd "$(grep -A2 ServerName\ "${DOMAIN}" /etc/apache2/conf/httpd.conf | tail -1 | awk '{print $2}')" || return
 }
 
 # shellcheck disable=SC2181
