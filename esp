@@ -3,15 +3,15 @@
 
 # ESP - Enhanced Shell Prompt
 # Created by Citizen Kepler
-# Maintained by Terrance Robotham
-# https://github.com/cPanelTechs/ESP
+# Updated by Terrance Robotham
+# Maintained by cPanel's Technical Analysts
 # vim: ts=4 sw=4 syn=sh et
 
 # Shellcheck Global POSIX ignores
 # shellcheck disable=SC2039,SC2112,SC2113
 
 # ESP Version
-readonly VERSION='2.0.0'
+readonly VERSION='2.1.1'
 
 # Colors
 readonly END=$(tput sgr0)
