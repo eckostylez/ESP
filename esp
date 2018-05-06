@@ -1308,58 +1308,6 @@ function xscreen() {
 	fi
 }
 
-alias ncpaste="nc nc.cpanel.xyz 9988"
-
-function b64ncpaste() {
-	FILE="${1}"
-	b64-encdump "${FILE}"|nc nc.cpanel.xyz 9988
-}
-
-function pastebin () {
-	DATA=$(cat -)
-
-	PASTE_URL="https://p.cpanel.xyz/api/create?apikey=B7wyLcQv7NHFnmn5g657"
-
-	TITLE="${TECH}-$(hostname) $(date +'%Y-%m-%d')"
-	RESULT=$(echo "${DATA}" | curl -s -d private=1 -d title="${TITLE}" --data-urlencode text@- "${PASTE_URL}")
-	RESULT=$(echo "${RESULT}" | sed -e 's/\/view\//\/view\/raw\//')
-
-
-	# shellcheck disable=SC1001
-	if [[ $RESULT =~ .*p\.cpanel\.xyz\/.* ]]
-	then
-		echo -e "\\nPaste available at ${RESULT}\\n"
-	else
-		echo -e "\\nFailed to create pastebin. Site returned:"
-		echo "----------"
-		echo -e "${RESULT}\\n"
-	fi
-}
-
-function b64paste() {
-	FILE="${1}"
-	b64-encdump "${FILE}"|pastebin
-}
-
-function transfer() {
-	if [ $# -eq 0 ]
-	then
-		echo -e "No arguments specified. Usage:\\necho transfer /tmp/test.md\\ncat /tmp/test.md | transfer test.md"
-		return 1
-	fi
-	local tmpfile
-	local basefile
-	tmpfile=$( mktemp -t transferXXX )
-	if tty -s
-	then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g')
-		curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> "${tmpfile}"
-	else
-		curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> "${tmpfile}"
-	fi
-	cat "${tmpfile}"
-	forceremove "${tmpfile}"
-}
-
 # shellcheck disable=SC2068
 function get_domain_status() {
   DOMAINS=$(awk -F':' '{print $1}' /etc/userdomains | grep -v "\\*")
