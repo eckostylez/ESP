@@ -1375,7 +1375,7 @@ function esp_help_other() {
 	help_command "clicensets" "Runs License Troubleshooter"
 	help_command "tfa" "Pull TFA Keys, cat /var/cpanel/authn/twofactor_auth/tfa_userdata.json to pull secret"
 	help_command "fixscreen" "Screen RPM Fixer"
-	help_command "compare-mirrors" "cPanel Mirrors compare script"
+	help_command "compare-mirrors <ip>" "cPanel httpuodate mirrors comparison script"
 	help_command "jsonpp" "JSON Pretty Print"
 	help_command "pphist <file>" "PrettyPrint History"
 	help_command "genpass [num]" "Generate Random Password"
