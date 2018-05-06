@@ -1445,7 +1445,7 @@ function cphelp() {
 	esp_migrations
 	esp_help_virtfs
 	esp_help_other
-	esp_help_L3
+#	esp_help_L3
 }
 #
 # Setup some envs for the PS1 prompt
