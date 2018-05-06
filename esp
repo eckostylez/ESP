@@ -497,7 +497,7 @@ function new_connected() {
 	# shellcheck disable=SC2154
 	if [[ ( -z $esp_check_disable_ssh ) && ( -z $esp_check_disable_all ) ]]; then
 		if [ "$(current_connected)" != "$connected_users" ]; then
-			echo -n "${YELLOW}SSH login/logout.${END} Use save_connected to dismiss, "
+			echo -n "${MAGENTA}SSH login/logout.${END} Use save_connected to dismiss, "
 		fi
 	fi
 }
@@ -668,7 +668,6 @@ esp_help_backup(){
 # System Information
 # ------------------
 
-alias server-type="strings /var/cpanel/envtype"
 alias sys-snap-install="wget -O /root/sys-snap.pl https://raw.githubusercontent.com/cPanelTechs/SysSnapv2/master/sys-snap.pl && cd /root/ && chmod 744 sys-snap.pl && perl sys-snap.pl --start"
 # shellcheck disable=SC1117
 alias sys-snap-start="\cd /root && perl sys-snap.pl --start"
@@ -739,7 +738,6 @@ function esp_help_sys-info() {
 	help_command "sys-snap-start" "Starts sys-snap if already installed"
 	help_command "cpu-count" "Displays the number of cpus installed"
 	help_command "cpu-info" "Displays the number and type of CPUs installed"
-	help_command "server-type" "Returns the server type from /v/c/envtype"
 	help_command "last-upcp" "Displays the last UPCP log"
 	help_command "summ-upcp" "Displays the UPCP Summary log"
 	help_command "sysinfo" "Displays various system information items"
