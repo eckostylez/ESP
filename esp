@@ -1392,10 +1392,10 @@ function esp_help_other() {
 #	fi
 #}
 
-function esp_help_L3() {
-	help_section "L3 Only"
-	help_command "h4tf" "Create hacked server touchfile"
-}
+#function esp_help_L3() {
+#	help_section "L3 Only"
+#	help_command "h4tf" "Create hacked server touchfile"
+#}
 
 #
 # Functions to assist with displaying the help section
