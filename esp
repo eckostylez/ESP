@@ -11,7 +11,7 @@
 # shellcheck disable=SC2039,SC2112,SC2113
 
 # ESP Version
-readonly VERSION='2.1.1'
+readonly VERSION='2.1.2'
 
 # Colors
 readonly END=$(tput sgr0)
@@ -173,9 +173,9 @@ function forcerecursiveremove() {
 # ESP hook for startup
 # --------------------
 
-if [ "$(declare -Ff esp_hook_pre)" == "esp_hook_pre" ]; then
-	esp_hook_pre
-fi
+# if [ "$(declare -Ff esp_hook_pre)" == "esp_hook_pre" ]; then
+# 	esp_hook_pre
+# fi
 
 
 #
@@ -497,7 +497,7 @@ function new_connected() {
 	# shellcheck disable=SC2154
 	if [[ ( -z $esp_check_disable_ssh ) && ( -z $esp_check_disable_all ) ]]; then
 		if [ "$(current_connected)" != "$connected_users" ]; then
-			echo -n "${YELLOW}SSH login/logout.${END} Use save_connected to dismiss, "
+			echo -n "${MAGENTA}SSH login/logout.${END} Use ${GREEN}save_connected${END} to dismiss, "
 		fi
 	fi
 }
@@ -668,10 +668,10 @@ esp_help_backup(){
 # System Information
 # ------------------
 
-alias server-type="strings /var/cpanel/envtype"
 alias sys-snap-install="wget -O /root/sys-snap.pl https://raw.githubusercontent.com/cPanelTechs/SysSnapv2/master/sys-snap.pl && cd /root/ && chmod 744 sys-snap.pl && perl sys-snap.pl --start"
 # shellcheck disable=SC1117
 alias sys-snap-start="\cd /root && perl sys-snap.pl --start"
+alias sys-snap-sum="sh <(curl -s https://raw.githubusercontent.com/cPMarco/SysSnapSum/master/sys-snap-sum.sh)"
 alias cpu-count="grep proc /proc/cpuinfo |wc -l"
 alias cpu-info="grep model\\ name /proc/cpuinfo | sed s/model\\ name//g | uniq -c"
 alias last-upcp="less /var/cpanel/updatelogs/last"
@@ -682,6 +682,7 @@ function sysinfo {
 	TIER="$(grep -i cpanel= /etc/cpupdate.conf | cut -d'=' -f2)"
 	INSTALLDATE="$(date -d @"$(stat -t /var/log/cpanel-install.log | awk '{print $14}')")"
 	USERCOUNT="$(find /var/cpanel/users -type f | grep -c -E -v '(cp[0-9]{7}|system)')"
+	TOTALDOMAINS="$(wc -l /etc/userdomains)"
 	echo "${YELLOW}cPanel Version:${END} $(cat /usr/local/cpanel/version) (Installed on $INSTALLDATE)"
 	echo "${YELLOW}Release Tier:${END} ${TIER^}"
 
@@ -696,6 +697,7 @@ function sysinfo {
 	echo "${YELLOW}CPU:${END} $(grep 'model name' /proc/cpuinfo | head -1 | cut -d':' -f2) w/ $(grep -c proc /proc/cpuinfo) cores"
 	echo "${YELLOW}Uptime:${END} $(uptime)"
 	echo "${YELLOW}cPanel Users:${END} ${USERCOUNT}"
+	echo "${YELLOW}Total Domains:${END} ${TOTALDOMAINS}"
 }
 
 # Proudly stolen from William L.
@@ -737,9 +739,9 @@ function esp_help_sys-info() {
 	help_section "System Information"
 	help_command "sys-snap-install" "Installs sys-snap"
 	help_command "sys-snap-start" "Starts sys-snap if already installed"
+	help_command "sys-snap-sum" "Run within a sys-snap directory (/root/system-snapshot/#/"
 	help_command "cpu-count" "Displays the number of cpus installed"
 	help_command "cpu-info" "Displays the number and type of CPUs installed"
-	help_command "server-type" "Returns the server type from /v/c/envtype"
 	help_command "last-upcp" "Displays the last UPCP log"
 	help_command "summ-upcp" "Displays the UPCP Summary log"
 	help_command "sysinfo" "Displays various system information items"
@@ -924,13 +926,9 @@ function esp_help_mail() {
 # MySQL
 # -----
 alias mysqlerr='less /var/lib/mysql/$(hostname).err'
-alias mysqltuner="esp_script_dl \"tuning-primer.sh\" \"https://launchpad.net/mysql-tuning-primer/trunk/1.6-r1/+download/tuning-primer.sh\""
-alias mysqltuner2="esp_script_dl \"mysqltuner.pl\" \"https://raw.githubusercontent.com/major/MySQLTuner-perl/master/mysqltuner.pl\""
 function esp_help_mysql() {
 	help_section "MySQL & Databases"
 	help_command "mysqlerr" "Opens the MySQL error log in less"
-	help_command "mysqltuner" "MySQL Tuning Primer Script < https://launchpad.net/mysql-tuning-primer/ >"
-	help_command "mysqltuner2" "MySQL Tuning Script < http://mysqltuner.pl/ >"
 }
 
 #
@@ -1107,15 +1105,9 @@ alias wo="/usr/local/cpanel/scripts/whoowns"
 alias checkofac="grep -E '\\.(ir|mm|cu|sd|sy):' /etc/userdomains"
 alias ccrpms="/usr/local/cpanel/scripts/check_cpanel_rpms"
 alias fdrpms="/usr/local/cpanel/scripts/autorepair fix_duplicate_cpanel_rpms"
-alias uploadvt="esp_script_dl \"uploadvt\" \"https://utils.cpanel.xyz/uploadvt\""
-alias cpdoctor="esp_script_dl \"cpdoctor.sh\" \"https://cpdoctor.cpanel.xyz/cpdoctor.sh\""
 alias clicensets="/usr/local/cpanel/3rdparty/bin/perl <(curl -s https://raw.githubusercontent.com/cPanelInc/tech-cp_license_troubleshooter/master/cplicensets)"
-alias bdnserial="esp_script_dl \"updateserial.pl\" \"https://scripts.cpanel.xyz/updateserial.pl\""
-alias cpscan="esp_script_dl \"scan\" \"https://scan.cpanel.xyz/scripts/scan\""
 alias fixscreen="/bin/rpm --setugids screen && rpm --setperms screen"
-alias compare-mirrors="/usr/local/cpanel/3rdparty/bin/perl <(curl -s https://cpaneltech.ninja/cptech/compare-mirrors)"
-#alias createreseller="function _cr() { awk 'BEGIN {FS=\".\"} {print $4}'`; export RANDPASS=$(/usr/local/cpanel/3rdparty/bin/perl -MCpanel::PasswdStrength::Generate -e 'print Cpanel::PasswdStrength::Generate::generate_password(14)'); export TEMPUSER=\"cp\"$TICKET\"cptech\"; echo \"$TEMPUSER $RANDPASS\" && echo && /usr/local/cpanel/scripts/autorepair create_temp_reseller_for_ticket_access; }; _cr;";"` }"
-alias vtcheck="/usr/bin/perl <(curl -s https://cpaneltech.ninja/cptech/virustotalchk)"
+alias compare-mirrors="/usr/local/cpanel/3rdparty/bin/perl <(curl -s https://raw.githubusercontent.com/eckostylez/compare-mirrors/master/compare-mirrors.pl)"
 alias cpversion="cat /usr/local/cpanel/version"
 alias follow-upcp="/scripts/upcp --force --bg && tail -f /var/cpanel/updatelogs/last"
 alias cpsqlite="/usr/local/cpanel/3rdparty/bin/sqlite3"
@@ -1231,8 +1223,8 @@ function showips() {
 }
 
 function docroot() {
-	OWNER=$(/scripts/whoowns "${1}")
-	cd "$(grep documentroot /var/cpanel/userdata/"${OWNER}"/"${1}" | cut -d' ' -f2)" || return
+	local DOMAIN=${1}
+	cd "$(grep -A2 ServerName\ "${DOMAIN}" /etc/apache2/conf/httpd.conf | tail -1 | awk '{print $2}')" || return
 }
 
 # shellcheck disable=SC2181
@@ -1308,6 +1300,25 @@ function xscreen() {
 	fi
 }
 
+function transfer() {
+        if [ $# -eq 0 ]
+        then
+                echo -e "No arguments specified. Usage:\\necho transfer /tmp/test.md\\ncat /tmp/test.md | transfer test.md"
+                return 1
+        fi
+        local tmpfile
+        local basefile
+        tmpfile=$( mktemp -t transferXXX )
+        if tty -s
+        then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g')
+                curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> "${tmpfile}"
+        else
+                curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> "${tmpfile}"
+        fi
+        cat "${tmpfile}"
+        forceremove "${tmpfile}"
+}
+
 # shellcheck disable=SC2068
 function get_domain_status() {
   DOMAINS=$(awk -F':' '{print $1}' /etc/userdomains | grep -v "\\*")
@@ -1363,30 +1374,20 @@ function esp_help_other() {
 	help_command "ccrpms" "Alias for /scripts/check_cpanel_rpms"
 	help_command "fdrpms" "Fix duplicate RPMs"
 	help_command "csi" "Runs CSI"
-	help_command "cpscan" "Runs cPScan"
-	help_command "cpdoctor" "Runs cpdoctor"
 	help_command "clicensets" "Runs License Troubleshooter"
-	help_command "bdnserial" "Bump DNS Serial"
 	help_command "tfa" "Pull TFA Keys, cat /var/cpanel/authn/twofactor_auth/tfa_userdata.json to pull secret"
 	help_command "fixscreen" "Screen RPM Fixer"
-	help_command "compare-mirrors" "cPanel Mirrors compare script"
+	help_command "compare-mirrors <ip>" "cPanel httpupdate mirrors comparison script"
 	help_command "jsonpp" "JSON Pretty Print"
-	help_command "createreseller" "Create cPanel Reseller account"
 	help_command "pphist <file>" "PrettyPrint History"
 	help_command "genpass [num]" "Generate Random Password"
 	help_command "getsum <file>" "Generate sums for a file"
 	help_command "createsess <user> <service>" "Creates session for user"
-	help_command "vtcheck <file>" "Checks file against VT"
-	help_command "uploadvt <file>" "Uploads file to VT"
 	help_command "gendcv <file>" "Generates DCV against CSR file"
 	help_command "cpversion" "Print the cPanel version installed on the server"
 	help_command "follow-upcp" "Start upcp in the background and tail the log file to follow progress"
 	help_command "saroverview" "Show general overview with SAR"
 	help_command "xscreen <socket_name> <command>" "Launches a screen session that executes the command provided. Screen session socket name is set with with the name provided"
-	help_command "ncpaste" "Pipe a command to ncpaste to output to https://nc.cpanel.xyz (4MB Limit) (Recommended for smaller text files)"
-	help_command "b64ncpaste <file>" "Base64 encode file and paste to https://nc.cpanel.xyz (4MB Limit) (Recommended for smaller text files)"
-	help_command "pastebin" "Pipe a command to pastebin to output to https://p.cpanel.xyz (Recommended for larger files)"
-	help_command "b64paste <file>" "Base64 encode file and paste to https://p.cpanel.xyz (Recommended for larger files)"
 	help_command "transfer <file>" "Transfers file to transfer.sh"
 	help_command "domain_check" "Runs a curl test on all domains in /etc/userdomains and outputs the results in a table"
 	help_command "get-requires" "Runs a test to check what packages require the packages passed into the function"
@@ -1395,22 +1396,23 @@ function esp_help_other() {
 	help_command "strace-httpd" "Runs a strace against httpd."
 }
 
-function h4tf() {
-	DATE=$(date +%F)
-	IP=$(hostname -i)
-	if [ -z "${TICKET}" ]; then
-		echo "Ticket number not detected via HISTFILE"
-	else
-		echo "Ticket number is ${TICKET}"
-		touch /usr/share/doc/.cp."${TECH}"."${DATE}"_"${IP}"_"${TICKET}"
-		stat /usr/share/doc/.cp*
-	fi
-}
+# Disabling for now
+#function h4tf() {
+#	DATE=$(date +%F)
+#	IP=$(hostname -i)
+#	if [ -z "${TICKET}" ]; then
+#		echo "Ticket number not detected via HISTFILE"
+#	else
+#		echo "Ticket number is ${TICKET}"
+#		touch /usr/share/doc/.cp."${TECH}"."${DATE}"_"${IP}"_"${TICKET}"
+#		stat /usr/share/doc/.cp*
+#	fi
+#}
 
-function esp_help_L3() {
-	help_section "L3 Only"
-	help_command "h4tf" "Create hacked server touchfile"
-}
+#function esp_help_L3() {
+#	help_section "L3 Only"
+#	help_command "h4tf" "Create hacked server touchfile"
+#}
 
 #
 # Functions to assist with displaying the help section
@@ -1445,7 +1447,7 @@ function cphelp() {
 	esp_migrations
 	esp_help_virtfs
 	esp_help_other
-	esp_help_L3
+#	esp_help_L3
 }
 #
 # Setup some envs for the PS1 prompt
