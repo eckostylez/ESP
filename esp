@@ -173,9 +173,9 @@ function forcerecursiveremove() {
 # ESP hook for startup
 # --------------------
 
-if [ "$(declare -Ff esp_hook_pre)" == "esp_hook_pre" ]; then
-	esp_hook_pre
-fi
+# if [ "$(declare -Ff esp_hook_pre)" == "esp_hook_pre" ]; then
+# 	esp_hook_pre
+# fi
 
 
 #
