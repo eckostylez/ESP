@@ -497,7 +497,7 @@ function new_connected() {
 	# shellcheck disable=SC2154
 	if [[ ( -z $esp_check_disable_ssh ) && ( -z $esp_check_disable_all ) ]]; then
 		if [ "$(current_connected)" != "$connected_users" ]; then
-			echo -n "${MAGENTA}SSH login/logout.${END} Use save_connected to dismiss, "
+			echo -n "${MAGENTA}SSH login/logout.${END} Use ${GREEN}save_connected${END} to dismiss, "
 		fi
 	fi
 }
