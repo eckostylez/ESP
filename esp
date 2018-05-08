@@ -681,7 +681,7 @@ function sysinfo {
 	TIER="$(grep -i cpanel= /etc/cpupdate.conf | cut -d'=' -f2)"
 	INSTALLDATE="$(date -d @"$(stat -t /var/log/cpanel-install.log | awk '{print $14}')")"
 	USERCOUNT="$(find /var/cpanel/users -type f | grep -c -E -v '(cp[0-9]{7}|system)')"
-	TOTALDOMAINS="$(cat /etc/userdomains | wc -l)"
+	TOTALDOMAINS="$(wc -l /etc/userdomains)"
 	echo "${YELLOW}cPanel Version:${END} $(cat /usr/local/cpanel/version) (Installed on $INSTALLDATE)"
 	echo "${YELLOW}Release Tier:${END} ${TIER^}"
 
