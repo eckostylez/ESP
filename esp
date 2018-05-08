@@ -671,6 +671,7 @@ esp_help_backup(){
 alias sys-snap-install="wget -O /root/sys-snap.pl https://raw.githubusercontent.com/cPanelTechs/SysSnapv2/master/sys-snap.pl && cd /root/ && chmod 744 sys-snap.pl && perl sys-snap.pl --start"
 # shellcheck disable=SC1117
 alias sys-snap-start="\cd /root && perl sys-snap.pl --start"
+alias sys-snap-sum="sh <(curl -s https://raw.githubusercontent.com/cPMarco/SysSnapSum/master/sys-snap-sum.sh)"
 alias cpu-count="grep proc /proc/cpuinfo |wc -l"
 alias cpu-info="grep model\\ name /proc/cpuinfo | sed s/model\\ name//g | uniq -c"
 alias last-upcp="less /var/cpanel/updatelogs/last"
@@ -738,6 +739,7 @@ function esp_help_sys-info() {
 	help_section "System Information"
 	help_command "sys-snap-install" "Installs sys-snap"
 	help_command "sys-snap-start" "Starts sys-snap if already installed"
+	help_command "sys-snap-sum" "Run within a sys-snap directory (/root/system-snapshot/#/"
 	help_command "cpu-count" "Displays the number of cpus installed"
 	help_command "cpu-info" "Displays the number and type of CPUs installed"
 	help_command "last-upcp" "Displays the last UPCP log"
