@@ -1,7 +1,7 @@
 ESP - Enhanced Shell Prompt
 ===========================
 
-Intro
+Intro 
 ----
 
 ESP or Enhanced Shell Prompt is an bash prompt that contains various checks to help an tech know whats happening on the server.  Every time the PS1 prompt is rendered, checks for upcp, backups, easyapache, new SSH connections, and also service checks for yum locks, apache, exim, mysql are run.  More checks will be introduced in future versions
@@ -11,7 +11,7 @@ Usage
 
 To use esp run the following command on CentOS/CL 6 or 7:
 
-# source /dev/stdin <<< "$(curl -sL https://esp.cpanel.xyz/esp)"
+# source /dev/stdin <<< "$(curl -sL [NEW_URL])"
 
 Special Thanks to Jerald Jonson for initially coding and hacking out the CentOS 5 bugs in the above source command that makes this tool possible, and his contributions to the ESP script itself.
 
@@ -24,11 +24,11 @@ Configuration options in ESP are bash environment variables declared before the 
 
 Example:
 
-# ssp=1 source /dev/stdin <<< "$(curl -sL https://esp.cpanel.xyz/esp)"
+# ssp=1 source /dev/stdin <<< "$(curl -sL [NEW_URL])"
 
-### SSP
+### SSP 
 
-You can enable SSP to run on script execution my declaring a bash environment variable called ssp before running the command for this script.
+You can enable SSP to run on script execution my declaring a bash environment variable called ssp before running the command for this script.  
 
 Configuration Option: ssp
 
@@ -36,7 +36,7 @@ Options: '1' - Enable SSP, Default is disabled
 
 ### Default directory listing
 
-As of esp 0.03 directory listings are now enabled by default, however this may not be desired for all servers or techs.  To disable this option, there is the following configuration option to disable this feature.
+As of esp 0.03 directory listings are now enabled by default, however this may not be desired for all servers or techs.  To disable this option, there is the following configuration option to disable this feature. 
 
 esp_cl_disable
 
@@ -105,7 +105,7 @@ Currently the script will check for the following in the PS1 Alerts:
 * If EasyApache is running
 * If upcp is running
 * If backups are running
-* If Apache is down
+* If Apache is down 
 * If Exim is down
 * If MySQL is down
 * If an new ssh connection/logout is detected
@@ -119,9 +119,9 @@ ESP has many features that can be useful besides being able to read minds. ESP c
 Development Hooks
 ----------------
 
-ESP features development hooks to allow for extra features and functions inside ESP without the need of forking the code and modifying ESP.  Hooks are relatively easy to use and can add a lot of custom functions to ESP.  To create an hook all you need to do is declare an bash function with the name of the hook.  Then when esp hits the hook it will test to see if the user has declared an hook and if so run it.
+ESP features development hooks to allow for extra features and functions inside ESP without the need of forking the code and modifying ESP.  Hooks are relatively easy to use and can add a lot of custom functions to ESP.  To create an hook all you need to do is declare an bash function with the name of the hook.  Then when esp hits the hook it will test to see if the user has declared an hook and if so run it. 
 
-### Pre-ESP Startup
+### Pre-ESP Startup 
 
 esp_hook_pre
 
@@ -133,11 +133,11 @@ An example of the pre hook could be to read ESP configuration options from a fil
 
 function esp_hook_pre { [ -f ~/.esprc ] && source ~/.esprc;};
 
-Now you can run ESP and ESP will detect the hook and load ~/.esprc if it exists.  Additionally, you can combine the function, with configuration options and the ESP command for an (admittedly large) one liner.
+Now you can run ESP and ESP will detect the hook and load ~/.esprc if it exists.  Additionally, you can combine the function, with configuration options and the ESP command for an (admittedly large) one liner. 
 
-export esp_check_disable_mysql=1 function esp_hook_pre { [ -f ~/.esprc ] && source ~/.esprc;}; source /dev/stdin <<< "$(curl -sL https://esp.cpanel.xyz/esp)"
+export esp_check_disable_mysql=1 function esp_hook_pre { [ -f ~/.esprc ] && source ~/.esprc;}; source /dev/stdin <<< "$(curl -sL [NEW_URL])"
 
-### Post-ESP hook
+### Post-ESP hook 
 
 esp_hook_post
 
@@ -151,7 +151,7 @@ function esp_hook_post { export PS1="$PS1 >>>"; };
 
 Like the pre hook you can place the function before the esp command for an one liner:
 
-function esp_hook_post { export PS1="$PS1 >>>"; }; source /dev/stdin <<< "$(curl -sL https://esp.cpanel.xyz/esp)"
+function esp_hook_post { export PS1="$PS1 >>>"; }; source /dev/stdin <<< "$(curl -sL [NEW_URL])"
 
 
 Credits
