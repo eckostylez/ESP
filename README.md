@@ -11,11 +11,9 @@ Usage
 
 To use esp run the following command on CentOS/CL 6 or 7:
 
-# source /dev/stdin <<< "$(curl -sL [NEW_URL])"
+# source <(curl -sL [NEW_URL])
 
 Special Thanks to Jerald Jonson for initially coding and hacking out the CentOS 5 bugs in the above source command that makes this tool possible, and his contributions to the ESP script itself.
-
-This version is highly modified and updated by Terrance Robotham - This is maintained in a private git repository and is automatically uploaded to https://esp.cpanel.xyz/ automagically on a per-commit basis.
 
 Configuration Options
 ---------------------
@@ -24,7 +22,7 @@ Configuration options in ESP are bash environment variables declared before the 
 
 Example:
 
-# ssp=1 source /dev/stdin <<< "$(curl -sL [NEW_URL])"
+# ssp=1 source <(curl -sL [NEW_URL])
 
 ### SSP 
 
