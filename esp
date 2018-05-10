@@ -531,6 +531,7 @@ alias get_jq="wget -nc -q -O ${DL_SCRIPTS}/jq https://github.com/stedolan/jq/rel
 # Tweak Settings
 # -------------
 
+# Courtesy William L.
 function tweaksettings () {
     if [ "$#" -eq 0 ]; then
         awk -F'=' '/=/{print$1,$2}' /var/cpanel/cpanel.config | while read -r tweak val; do
@@ -683,6 +684,7 @@ function sysinfo {
 	INSTALLDATE="$(date -d @"$(stat -t /var/log/cpanel-install.log | awk '{print $14}')")"
 	USERCOUNT="$(find /var/cpanel/users -type f | grep -c -E -v '(cp[0-9]{7}|system)')"
 	TOTALDOMAINS="$(wc -l /etc/userdomains)"
+	RESELLERS="$(cut -d ':' -f 1 /var/cpanel/resellers | wc -l)"
 	echo "${YELLOW}cPanel Version:${END} $(cat /usr/local/cpanel/version) (Installed on $INSTALLDATE)"
 	echo "${YELLOW}Release Tier:${END} ${TIER^}"
 
@@ -696,7 +698,7 @@ function sysinfo {
 	echo "${YELLOW}Environment:${END} $(cat /var/cpanel/envtype)"
 	echo "${YELLOW}CPU:${END} $(grep 'model name' /proc/cpuinfo | head -1 | cut -d':' -f2) w/ $(grep -c proc /proc/cpuinfo) cores"
 	echo "${YELLOW}Uptime:${END} $(uptime)"
-	echo "${YELLOW}cPanel Users:${END} ${USERCOUNT}"
+	echo "${YELLOW}cPanel Users:${END} ${USERCOUNT} ${GREEN}[${END}${RESELLERS}{$GREEN}]${END} Resellers"
 	echo "${YELLOW}Total Domains:${END} ${TOTALDOMAINS}"
 }
 
