@@ -698,7 +698,7 @@ function sysinfo {
 	echo "${YELLOW}Environment:${END} $(cat /var/cpanel/envtype)"
 	echo "${YELLOW}CPU:${END} $(grep 'model name' /proc/cpuinfo | head -1 | cut -d':' -f2) w/ $(grep -c proc /proc/cpuinfo) cores"
 	echo "${YELLOW}Uptime:${END} $(uptime)"
-	echo "${YELLOW}cPanel Users:${END} ${USERCOUNT} ${GREEN}[${END}${RESELLERS}$\{GREEN}]${END} Resellers"
+	echo "${YELLOW}cPanel Users:${END} ${USERCOUNT} - ${RESELLERS} of which are resellers"
 	echo "${YELLOW}Total Domains:${END} ${TOTALDOMAINS}"
 }
 
