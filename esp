@@ -1094,7 +1094,7 @@ function esp_help_virtfs() {
 # --------------------------
 
 alias ssp="curl -sk https://ssp.cpanel.net/run | sh "
-alias bugreport="curl -sk https://ssp.cpanel.net/run|sh -s -- --bugreport"
+alias bugreport="curl -s https://ssp.cpanel.net/run|sh -s -- --bugreport"
 alias csi="esp_script_dl \"csi.pl\" \"https://raw.githubusercontent.com/cPanelTechs/CSI/master/csi.pl\""
 alias ssp-csi="curl -sk https://ssp.cpanel.net/run|sh -s -- --csi"
 alias wo="/usr/local/cpanel/scripts/whoowns"
