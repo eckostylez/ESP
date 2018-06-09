@@ -1352,7 +1352,6 @@ function esp_help_other() {
 	help_command "wo" "Alias for /scripts/whoowns"
 	help_command "showips" "Show server IPs"
 	help_command "docroot <domain>" "Show docroot for domain"
-	help_command "genaccesshash [user]" "Generate access hash (for optional user)"
 	help_command "ccrpms" "Alias for /scripts/check_cpanel_rpms"
 	help_command "fdrpms" "Fix duplicate RPMs"
 	help_command "csi" "Runs CSI"
