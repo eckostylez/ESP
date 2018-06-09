@@ -1223,20 +1223,6 @@ function docroot() {
 	cd "$(grep -A2 ServerName\ "${DOMAIN}" /etc/apache2/conf/httpd.conf | tail -1 | awk '{print $2}')" || return
 }
 
-# shellcheck disable=SC2181
-function genaccesshash() {
-	if [ -z "${1}" ]; then
-		UNAME='root'
-	else
-		UNAME=${1}
-	fi
-	echo "Generating hash for ${UNAME}.."
-	/usr/local/cpanel/bin/mkaccesshash "${UNAME}"
-	if [ $? -eq 0 ]; then
-		echo "Access hash generated."
-	fi
-}
-
 function createsess () {
 	if [[ ${#} -lt 1 ]]; then
 		echo "Must supply a User"
