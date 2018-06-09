@@ -163,12 +163,6 @@ function forceremove() {
 	/bin/rm -f "${FILE}"
 }
 
-function forcerecursiveremove() {
-	local FILE
-	FILE=$*
-	/bin/rm -fr "${FILE}"
-}
-
 #
 # ESP hook for startup
 # --------------------
