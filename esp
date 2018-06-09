@@ -1377,28 +1377,6 @@ function esp_help_other() {
 	help_command "strace-httpd" "Runs a strace against httpd."
 }
 
-# Disabling for now
-#function h4tf() {
-#	DATE=$(date +%F)
-#	IP=$(hostname -i)
-#	if [ -z "${TICKET}" ]; then
-#		echo "Ticket number not detected via HISTFILE"
-#	else
-#		echo "Ticket number is ${TICKET}"
-#		touch /usr/share/doc/.cp."${TECH}"."${DATE}"_"${IP}"_"${TICKET}"
-#		stat /usr/share/doc/.cp*
-#	fi
-#}
-
-#function esp_help_L3() {
-#	help_section "L3 Only"
-#	help_command "h4tf" "Create hacked server touchfile"
-#}
-
-#
-# Functions to assist with displaying the help section
-# ----------------------------------------------------
-
 function help_section () {
 	printf "\\n\\n${YELLOW}${BOLD} .: %s :. ${END}\\n" "$1"
 }
